@@ -1,11 +1,4 @@
-import OpenAI from 'openai';
 import { AIInsight, Trade, Alert } from './types';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
-  baseURL: "https://openrouter.ai/api/v1",
-  dangerouslyAllowBrowser: true,
-});
 
 export class AITradingCoach {
   async analyzeOvertrading(trades: Trade[]): Promise<AIInsight> {
@@ -99,27 +92,28 @@ export class AITradingCoach {
   }
 
   async generateAIResponse(message: string): Promise<string> {
-    try {
-      const completion = await openai.chat.completions.create({
-        model: 'google/gemini-2.0-flash-001',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are AlphaFlow AI, a professional trading coach. Provide concise, actionable trading advice. Keep responses under 100 words and focus on risk management and discipline.',
-          },
-          {
-            role: 'user',
-            content: message,
-          },
-        ],
-        max_tokens: 150,
-        temperature: 0.7,
-      });
+    // Mock AI responses for demo purposes
+    const responses = [
+      "Remember, discipline is key in trading. Stick to your strategy and avoid emotional decisions.",
+      "Market timing is crucial. Consider the current volatility and your risk tolerance before entering trades.",
+      "Always use stop-loss orders to protect your capital. Risk management comes before profits.",
+      "Study your past trades to identify patterns. Learning from mistakes is how you improve.",
+      "Patience is a trader's best friend. Wait for the right opportunities rather than forcing trades.",
+      "Diversification helps manage risk. Don't put all your capital in one position.",
+      "Keep a trading journal to track your decisions and outcomes. This helps with continuous improvement.",
+      "Market conditions change. What worked yesterday might not work today. Stay adaptable.",
+    ];
 
-      return completion.choices[0]?.message?.content || 'I\'m here to help with your trading decisions. What would you like to know?';
-    } catch (error) {
-      console.error('AI response error:', error);
-      return 'I\'m experiencing some technical difficulties. Please try again later.';
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Return a random response or a contextual one based on message content
+    if (message.toLowerCase().includes('risk')) {
+      return "Risk management is paramount. Never risk more than 1-2% of your capital on any single trade.";
+    } else if (message.toLowerCase().includes('profit') || message.toLowerCase().includes('loss')) {
+      return "Focus on the process, not just profits. Consistent, disciplined trading leads to long-term success.";
+    } else {
+      return responses[Math.floor(Math.random() * responses.length)];
     }
   }
 }

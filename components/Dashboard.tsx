@@ -42,9 +42,9 @@ export function Dashboard() {
     return (
       <div className="px-4 py-6 max-w-lg mx-auto space-y-4">
         <div className="animate-pulse">
-          <div className="h-32 bg-surface rounded-lg mb-4"></div>
-          <div className="h-24 bg-surface rounded-lg mb-4"></div>
-          <div className="h-24 bg-surface rounded-lg"></div>
+          <div className="h-32 bg-slate-800 rounded-lg mb-4"></div>
+          <div className="h-24 bg-slate-800 rounded-lg mb-4"></div>
+          <div className="h-24 bg-slate-800 rounded-lg"></div>
         </div>
       </div>
     );
@@ -54,7 +54,7 @@ export function Dashboard() {
     <div className="px-4 py-6 max-w-lg mx-auto space-y-6">
       {/* Active Alerts */}
       <section>
-        <h2 className="text-xl font-semibold text-text-primary mb-4">Active Alerts</h2>
+        <h2 className="text-xl font-semibold text-white mb-4">Active Alerts</h2>
         <div className="space-y-3">
           {alerts.length > 0 ? (
             alerts.map(alert => (
@@ -65,9 +65,9 @@ export function Dashboard() {
               />
             ))
           ) : (
-            <div className="notification-card text-center py-8">
-              <p className="text-text-secondary">No active alerts</p>
-              <p className="text-sm text-text-secondary mt-1">
+            <div className="bg-slate-800 border border-slate-600 rounded-lg p-4 text-center py-8">
+              <p className="text-slate-300">No active alerts</p>
+              <p className="text-sm text-slate-400 mt-1">
                 You're trading within healthy parameters
               </p>
             </div>
@@ -78,7 +78,7 @@ export function Dashboard() {
       {/* Performance Overview */}
       {performance && (
         <section>
-          <h2 className="text-xl font-semibold text-text-primary mb-4">Performance</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Performance</h2>
           <PerformanceCard performance={performance} />
         </section>
       )}
@@ -86,27 +86,27 @@ export function Dashboard() {
       {/* Market Data */}
       {marketData && (
         <section>
-          <h2 className="text-xl font-semibold text-text-primary mb-4">Market Overview</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Market Overview</h2>
           <MarketCard marketData={marketData} />
         </section>
       )}
 
       {/* AI Chat */}
       <section>
-        <h2 className="text-xl font-semibold text-text-primary mb-4">AI Coach</h2>
+        <h2 className="text-xl font-semibold text-white mb-4">AI Coach</h2>
         <AIChat />
       </section>
 
       {/* Subscription CTA */}
       {user?.subscriptionTier === 'free' && (
-        <section className="frame-gradient rounded-lg p-6 text-center">
-          <h3 className="text-lg font-semibold text-text-primary mb-2">
+        <section className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-6 text-center">
+          <h3 className="text-lg font-semibold text-white mb-2">
             Upgrade to Pro
           </h3>
-          <p className="text-text-secondary mb-4">
+          <p className="text-slate-300 mb-4">
             Get real-time alerts, advanced pattern recognition, and personalized insights
           </p>
-          <button className="cta-primary w-full">
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 w-full">
             Upgrade for $19/month
           </button>
         </section>
