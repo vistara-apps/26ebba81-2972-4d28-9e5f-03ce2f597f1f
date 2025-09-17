@@ -5,6 +5,8 @@ import { AlertCard } from './AlertCard';
 import { PerformanceCard } from './PerformanceCard';
 import { MarketCard } from './MarketCard';
 import { AIChat } from './AIChat';
+import { PaymentModal } from './PaymentModal';
+import { PaymentTestPanel } from './PaymentTestPanel';
 import { generateMockData } from '../lib/utils';
 import { Alert, User } from '../lib/types';
 
@@ -14,6 +16,7 @@ export function Dashboard() {
   const [performance, setPerformance] = useState<any>(null);
   const [marketData, setMarketData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     // Simulate loading data
@@ -97,6 +100,14 @@ export function Dashboard() {
         <AIChat />
       </section>
 
+      {/* Payment Test Panel - Development Only */}
+      {process.env.NODE_ENV === 'development' && (
+        <section>
+          <h2 className="text-xl font-semibold text-text-primary mb-4">Payment Testing</h2>
+          <PaymentTestPanel />
+        </section>
+      )}
+
       {/* Subscription CTA */}
       {user?.subscriptionTier === 'free' && (
         <section className="frame-gradient rounded-lg p-6 text-center">
@@ -106,11 +117,23 @@ export function Dashboard() {
           <p className="text-text-secondary mb-4">
             Get real-time alerts, advanced pattern recognition, and personalized insights
           </p>
-          <button className="cta-primary w-full">
+          <button 
+            onClick={() => setShowPaymentModal(true)}
+            className="cta-primary w-full"
+          >
             Upgrade for $19/month
           </button>
         </section>
       )}
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        planName="Pro"
+        amount="19.00"
+        description="Monthly subscription for real-time alerts, advanced pattern recognition, and personalized insights"
+      />
     </div>
   );
 }
