@@ -97,9 +97,9 @@ export function AIChat() {
                 <span className="text-xs text-text-secondary">AI Coach is typing...</span>
               </div>
               <div className="flex space-x-1 mt-2">
-                <div className="w-2 h-2 bg-accent rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-2 h-2 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2 h-2 bg-accent rounded-full animate-bounce-soft"></div>
+                <div className="w-2 h-2 bg-accent rounded-full animate-bounce-soft" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2 h-2 bg-accent rounded-full animate-bounce-soft" style={{ animationDelay: '0.4s' }}></div>
               </div>
             </div>
           </div>
@@ -113,13 +113,15 @@ export function AIChat() {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Ask your AI coach..."
-          className="flex-1 bg-background border border-gray-600 rounded-lg px-3 py-2 text-text-primary placeholder-text-secondary focus:outline-none focus:border-primary"
+          className="flex-1 bg-background border border-gray-600 rounded-lg px-3 py-2 text-text-primary placeholder-text-secondary focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
           disabled={isLoading}
+          aria-label="Chat with AI coach"
         />
         <button
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
-          className="bg-primary text-white p-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="bg-primary text-white p-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 touch-target"
+          aria-label="Send message"
         >
           <Send className="w-4 h-4" />
         </button>

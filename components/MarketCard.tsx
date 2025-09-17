@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { TrendingUp, TrendingDown, Activity } from 'lucide-react';
 import { formatCurrency, formatPercentage } from '../lib/utils';
 
@@ -13,17 +14,17 @@ interface MarketCardProps {
   };
 }
 
-export function MarketCard({ marketData }: MarketCardProps) {
+export const MarketCard = React.memo(function MarketCard({ marketData }: MarketCardProps) {
   const isPositive = marketData.change24h > 0;
   
   return (
     <div className="notification-card">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-text-primary">
+          <h3 className="card-title">
             {marketData.symbol}
           </h3>
-          <p className="text-2xl font-bold text-text-primary">
+          <p className="metric-value">
             {formatCurrency(marketData.price)}
           </p>
         </div>
@@ -74,4 +75,4 @@ export function MarketCard({ marketData }: MarketCardProps) {
       </div>
     </div>
   );
-}
+});
