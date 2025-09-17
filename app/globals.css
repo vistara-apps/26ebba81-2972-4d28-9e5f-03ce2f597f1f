@@ -23,6 +23,7 @@ body {
   overflow-x: hidden;
   background-color: var(--background);
   color: var(--text-primary);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -39,15 +40,31 @@ body {
   }
   
   .notification-card {
-    @apply bg-surface border border-gray-700 rounded-lg p-4 shadow-card;
+    @apply bg-surface border border-gray-700 rounded-lg p-4 shadow-card transition-all duration-200 hover:shadow-lg hover:border-gray-600;
   }
   
   .cta-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors duration-200;
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 active:bg-blue-700 transition-all duration-200 min-h-[44px] flex items-center justify-center touch-manipulation;
   }
   
   .cta-secondary {
-    @apply bg-surface text-text-primary border border-gray-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors duration-200;
+    @apply bg-surface text-text-primary border border-gray-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 active:bg-gray-600 transition-all duration-200 min-h-[44px] flex items-center justify-center touch-manipulation;
+  }
+  
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation;
+  }
+  
+  .animate-slide-up {
+    will-change: transform, opacity;
+  }
+  
+  .animate-pulse-soft {
+    will-change: opacity;
+  }
+  
+  .animate-bounce-soft {
+    will-change: transform;
   }
   
   .agent-bubble-ai {
@@ -56,5 +73,21 @@ body {
   
   .agent-bubble-user {
     @apply bg-primary text-white rounded-lg p-3 max-w-xs ml-auto;
+  }
+  
+  .section-title {
+    @apply text-xl font-bold text-text-primary mb-6 tracking-tight;
+  }
+  
+  .card-title {
+    @apply text-lg font-semibold text-text-primary mb-2;
+  }
+  
+  .metric-value {
+    @apply text-2xl font-bold text-text-primary;
+  }
+  
+  .metric-label {
+    @apply text-sm font-medium text-text-secondary uppercase tracking-wide;
   }
 }

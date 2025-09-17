@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { TrendingUp, TrendingDown, DollarSign, Target } from 'lucide-react';
 import { formatCurrency, formatPercentage } from '../lib/utils';
 
@@ -12,7 +13,7 @@ interface PerformanceCardProps {
   };
 }
 
-export function PerformanceCard({ performance }: PerformanceCardProps) {
+export const PerformanceCard = React.memo(function PerformanceCard({ performance }: PerformanceCardProps) {
   const isProfit = performance.totalPnL > 0;
   
   return (
@@ -27,20 +28,20 @@ export function PerformanceCard({ performance }: PerformanceCardProps) {
               <TrendingDown className="w-4 h-4 text-danger" />
             )}
           </div>
-          <p className="text-2xl font-bold text-text-primary">
+          <p className="metric-value">
             {formatCurrency(performance.totalPnL)}
           </p>
-          <p className="text-sm text-text-secondary">Total P&L</p>
+          <p className="metric-label">Total P&L</p>
         </div>
         
         <div className="text-center">
           <div className="flex items-center justify-center mb-2">
             <Target className="w-5 h-5 text-text-secondary" />
           </div>
-          <p className="text-2xl font-bold text-text-primary">
+          <p className="metric-value">
             {formatPercentage(performance.winRate)}
           </p>
-          <p className="text-sm text-text-secondary">Win Rate</p>
+          <p className="metric-label">Win Rate</p>
         </div>
       </div>
       
@@ -64,4 +65,4 @@ export function PerformanceCard({ performance }: PerformanceCardProps) {
       </div>
     </div>
   );
-}
+});

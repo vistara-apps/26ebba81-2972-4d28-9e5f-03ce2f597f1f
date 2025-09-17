@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { AlertTriangle, Clock, TrendingUp, X } from 'lucide-react';
 import { Alert } from '../lib/types';
 import { getTimeAgo } from '../lib/utils';
@@ -9,7 +10,7 @@ interface AlertCardProps {
   onDismiss: (alertId: string) => void;
 }
 
-export function AlertCard({ alert, onDismiss }: AlertCardProps) {
+export const AlertCard = React.memo(function AlertCard({ alert, onDismiss }: AlertCardProps) {
   const getAlertIcon = () => {
     switch (alert.type) {
       case 'overtrading':
@@ -57,7 +58,8 @@ export function AlertCard({ alert, onDismiss }: AlertCardProps) {
         
         <button
           onClick={() => onDismiss(alert.alertId)}
-          className="p-1 hover:bg-gray-600 rounded transition-colors duration-200"
+          className="touch-target hover:bg-gray-600 active:bg-gray-500 rounded transition-colors duration-200"
+          aria-label="Dismiss alert"
         >
           <X className="w-4 h-4 text-text-secondary" />
         </button>
@@ -80,4 +82,4 @@ export function AlertCard({ alert, onDismiss }: AlertCardProps) {
       )}
     </div>
   );
-}
+});

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AlertCard } from './AlertCard';
 import { PerformanceCard } from './PerformanceCard';
 import { MarketCard } from './MarketCard';
 import { AIChat } from './AIChat';
+import { WelcomeCard } from './WelcomeCard';
 import { generateMockData } from '../lib/utils';
 import { Alert, User } from '../lib/types';
 
@@ -14,6 +15,7 @@ export function Dashboard() {
   const [performance, setPerformance] = useState<any>(null);
   const [marketData, setMarketData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     // Simulate loading data
@@ -24,6 +26,12 @@ export function Dashboard() {
         setUser(mockData.user);
         setPerformance(mockData.performance);
         setMarketData(mockData.marketData);
+        
+        // Show welcome for new users (simulate first visit check)
+        const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+        if (!hasSeenWelcome) {
+          setShowWelcome(true);
+        }
       } catch (error) {
         console.error('Error loading data:', error);
       } finally {
@@ -34,27 +42,46 @@ export function Dashboard() {
     loadData();
   }, []);
 
-  const handleDismissAlert = (alertId: string) => {
+  const handleDismissAlert = useCallback((alertId: string) => {
     setAlerts(prev => prev.filter(alert => alert.alertId !== alertId));
-  };
+  }, []);
+
+  const handleDismissWelcome = useCallback(() => {
+    setShowWelcome(false);
+    localStorage.setItem('hasSeenWelcome', 'true');
+  }, []);
 
   if (loading) {
     return (
-      <div className="px-4 py-6 max-w-lg mx-auto space-y-4">
-        <div className="animate-pulse">
-          <div className="h-32 bg-surface rounded-lg mb-4"></div>
-          <div className="h-24 bg-surface rounded-lg mb-4"></div>
-          <div className="h-24 bg-surface rounded-lg"></div>
+      <div className="px-4 py-6 w-full max-w-screen-sm mx-auto space-y-6 min-h-screen">
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <div className="h-6 bg-surface rounded-lg animate-pulse-soft w-32"></div>
+            <div className="h-32 bg-surface rounded-lg animate-pulse-soft"></div>
+          </div>
+          <div className="space-y-3">
+            <div className="h-6 bg-surface rounded-lg animate-pulse-soft w-28"></div>
+            <div className="h-24 bg-surface rounded-lg animate-pulse-soft"></div>
+          </div>
+          <div className="space-y-3">
+            <div className="h-6 bg-surface rounded-lg animate-pulse-soft w-36"></div>
+            <div className="h-24 bg-surface rounded-lg animate-pulse-soft"></div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="px-4 py-6 max-w-lg mx-auto space-y-6">
+    <div className="px-4 py-6 w-full max-w-screen-sm mx-auto space-y-6 min-h-screen">
+      {/* Welcome Card for new users */}
+      {showWelcome && (
+        <WelcomeCard onDismiss={handleDismissWelcome} />
+      )}
+
       {/* Active Alerts */}
-      <section>
-        <h2 className="text-xl font-semibold text-text-primary mb-4">Active Alerts</h2>
+      <section aria-labelledby="alerts-heading">
+        <h2 id="alerts-heading" className="section-title">Active Alerts</h2>
         <div className="space-y-3">
           {alerts.length > 0 ? (
             alerts.map(alert => (
@@ -65,10 +92,18 @@ export function Dashboard() {
               />
             ))
           ) : (
-            <div className="notification-card text-center py-8">
-              <p className="text-text-secondary">No active alerts</p>
-              <p className="text-sm text-text-secondary mt-1">
-                You're trading within healthy parameters
+            <div className="notification-card text-center py-12">
+              <div className="w-16 h-16 mx-auto mb-4 bg-accent/10 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-text-primary mb-2">All Clear!</h3>
+              <p className="text-text-secondary mb-4">
+                No active alerts - you're trading within healthy parameters
+              </p>
+              <p className="text-sm text-text-secondary">
+                The AI coach will notify you when patterns need attention
               </p>
             </div>
           )}
@@ -77,23 +112,23 @@ export function Dashboard() {
 
       {/* Performance Overview */}
       {performance && (
-        <section>
-          <h2 className="text-xl font-semibold text-text-primary mb-4">Performance</h2>
+        <section aria-labelledby="performance-heading">
+          <h2 id="performance-heading" className="section-title">Performance</h2>
           <PerformanceCard performance={performance} />
         </section>
       )}
 
       {/* Market Data */}
       {marketData && (
-        <section>
-          <h2 className="text-xl font-semibold text-text-primary mb-4">Market Overview</h2>
+        <section aria-labelledby="market-heading">
+          <h2 id="market-heading" className="section-title">Market Overview</h2>
           <MarketCard marketData={marketData} />
         </section>
       )}
 
       {/* AI Chat */}
-      <section>
-        <h2 className="text-xl font-semibold text-text-primary mb-4">AI Coach</h2>
+      <section aria-labelledby="chat-heading">
+        <h2 id="chat-heading" className="section-title">AI Coach</h2>
         <AIChat />
       </section>
 
