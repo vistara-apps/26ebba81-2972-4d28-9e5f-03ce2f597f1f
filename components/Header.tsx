@@ -1,10 +1,10 @@
 'use client';
 
-import { useMiniKit } from '@coinbase/minikit';
-import { Bot, Settings } from 'lucide-react';
+import { useAccount } from 'wagmi';
+import { Bot, Settings, Wallet } from 'lucide-react';
 
 export function Header() {
-  const { context } = useMiniKit();
+  const { address, isConnected } = useAccount();
   
   return (
     <header className="bg-surface border-b border-gray-700 px-4 py-3">
@@ -20,9 +20,9 @@ export function Header() {
         </div>
         
         <div className="flex items-center space-x-2">
-          {context?.user?.displayName && (
+          {isConnected && address && (
             <span className="text-sm text-text-secondary">
-              {context.user.displayName}
+              {address.slice(0, 6)}...{address.slice(-4)}
             </span>
           )}
           <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200">
